@@ -1,6 +1,7 @@
 package pl.gregorymartin.spacetravelagency.user.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,7 +34,8 @@ public class User {
     Collection<Role> roles;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_bookings",
             joinColumns = @JoinColumn(
@@ -48,6 +50,13 @@ public class User {
         this.password = password;
         this.email = email;
     }
+    public void newRole(Role newRole){
+        this.roles.add(newRole);
+    }
+    public void newBooking(Booking newBooking){
+        this.bookings.add(newBooking);
+    }
+
     public void toUpdate(User toUpdate){
         this.name = toUpdate.name;
         this.username = toUpdate.username;

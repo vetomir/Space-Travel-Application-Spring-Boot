@@ -1,5 +1,6 @@
 package pl.gregorymartin.spacetravelagency.travel.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

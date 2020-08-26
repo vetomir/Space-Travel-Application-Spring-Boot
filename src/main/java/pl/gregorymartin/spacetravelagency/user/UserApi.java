@@ -97,11 +97,11 @@ class UserApi {
                 return ResponseEntity.ok().build();
             }
             else
-                logger.warn("Role Is NOT EXISTS!");
+                logger.warn("Role Is NOT EXISTS or ON USE!");
                 return ResponseEntity.notFound().build();
         }
         catch (Exception e){
-            logger.warn("Role CANNOT BE on Use!");
+            logger.warn("Role CANNOT BE ON USE!");
             return ResponseEntity.notFound().build();
         }
     }

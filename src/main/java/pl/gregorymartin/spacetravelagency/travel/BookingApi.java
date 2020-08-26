@@ -64,6 +64,24 @@ class BookingApi {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
+    @PatchMapping("/booking/{bookingid}/add/{userid}")
+    ResponseEntity<?> addUserToBooking(@PathVariable Long bookingid, @PathVariable Long userid ) {
+        boolean result = bookingService.addUserToBooking(userid,bookingid);
+        if(result){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+    @PatchMapping("/booking/{bookingid}/remove/{userid}")
+    ResponseEntity<?> removeUserToBooking(@PathVariable Long bookingid, @PathVariable Long userid ) {
+        boolean result = bookingService.deleteUserFromBooking( userid , bookingid );
+        if(result){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
     @PatchMapping("/place/{id}/edit")
     ResponseEntity<Place> editPlace(@PathVariable Long id, @RequestHeader String newName ) {
         Place result = bookingService.editPlace(newName, id);

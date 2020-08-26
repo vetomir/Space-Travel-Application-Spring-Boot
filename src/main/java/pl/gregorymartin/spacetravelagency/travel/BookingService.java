@@ -7,20 +7,29 @@ import pl.gregorymartin.spacetravelagency.travel.model.Booking;
 import pl.gregorymartin.spacetravelagency.travel.model.BookingRepository;
 import pl.gregorymartin.spacetravelagency.travel.model.Place;
 import pl.gregorymartin.spacetravelagency.travel.model.PlacesRepository;
+import pl.gregorymartin.spacetravelagency.user.model.User;
+import pl.gregorymartin.spacetravelagency.user.model.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
+public
 class BookingService {
     Logger logger = LoggerFactory.getLogger(BookingService.class);
 
     private final BookingRepository bookingRepository;
     private final PlacesRepository placesRepository;
+    private final UserRepository userRepository;
 
-    public BookingService(final BookingRepository bookingRepository, final PlacesRepository placesRepository) {
+    public BookingService(final BookingRepository bookingRepository, final PlacesRepository placesRepository, final UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.placesRepository = placesRepository;
+        this.userRepository = userRepository;
     }
 
     public Booking createNewBooking(String nameOfBooking, String nameOfOrigin, String nameOfDestination, LocalDateTime date){
@@ -34,6 +43,31 @@ class BookingService {
             logger.warn("New booking CANNOT be created, CHECK input parameters. " + e.getMessage());
         }
         return bookingRepository.save(booking);
+    }
+
+    public boolean addUserToBooking(Long userId, Long bookingId){
+        logger.info("TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
+        Optional<User> userById = userRepository.findById(userId);
+        Optional<Booking> bookingById = bookingRepository.findById(bookingId);
+        if(userById.isPresent() && bookingById.isPresent()){
+
+            userById.get().newBooking(bookingById.get());
+            userRepository.save(userById.get());
+
+            logger.info("User " + userById.get().getName() + " added to booking with name = " + bookingById.get().getName());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteUserFromBooking(Long userId, Long bookingId){
+        Optional<User> userById = userRepository.findById(userId);
+        Optional<Booking> bookingById = bookingRepository.findById(bookingId);
+        if(userById.isPresent() && bookingById.isPresent()){
+            logger.info("User " + userById.get().getName() + " removed from booking with name = " + bookingById.get().getName());
+            return bookingById.get().getUsers().remove(userById.get());
+        }
+        return false;
     }
 
     public Place createNewPlace(String nameOfPlace){
