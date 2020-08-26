@@ -15,8 +15,8 @@ import java.util.concurrent.atomic.AtomicReference;
 class BookingService {
     Logger logger = LoggerFactory.getLogger(BookingService.class);
 
-    private BookingRepository bookingRepository;
-    private PlacesRepository placesRepository;
+    private final BookingRepository bookingRepository;
+    private final PlacesRepository placesRepository;
 
     public BookingService(final BookingRepository bookingRepository, final PlacesRepository placesRepository) {
         this.bookingRepository = bookingRepository;
@@ -51,7 +51,31 @@ class BookingService {
             x.toUpdate(bookingToEdit);
             result.set(bookingRepository.save(x));
         });
+
         return result.get();
+    }
+    public Place editPlace(String nameOfPlaceToEdit, Long placeId){
+        final AtomicReference<Place> result = new AtomicReference<Place>();
+        placesRepository.findById(placeId).ifPresent( x -> {
+            x.setName(nameOfPlaceToEdit);
+            result.set(placesRepository.save(x));
+        });
+
+        return result.get();
+    }
+
+    public boolean deleteBooking(Long bookingId){
+        bookingRepository.findById(bookingId)
+                .ifPresent(x -> bookingRepository.deleteById(x.getId()));
+
+        return bookingRepository.findById(bookingId).isEmpty();
+    }
+
+    public boolean deletePlace(Long placeId){
+        placesRepository.findById(placeId)
+                .ifPresent(x -> placesRepository.deleteById(x.getId()));
+
+        return placesRepository.findById(placeId).isEmpty();
     }
 
 }

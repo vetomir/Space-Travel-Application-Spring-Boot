@@ -17,8 +17,8 @@ import java.util.Optional;
 class UserService {
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    private RoleRepository roleRepository;
-    private UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     //todo
     //private PasswordEncoder passwordEncoder;
@@ -43,9 +43,11 @@ class UserService {
     public User createUser(User toCreate, String role){
         Collection<Role> rolesToSave = new ArrayList<>();
 
-        rolesToSave.add(new Role("ROLE_USER"));
-        Optional<Role> roleByName = roleRepository.findByName("ROLE_" + role.toUpperCase());
-        roleByName.ifPresent(rolesToSave::add);
+        rolesToSave.add(roleRepository.findByName("ROLE_USER").get());
+        if(!role.isEmpty()){
+            Optional<Role> roleByName = roleRepository.findByName("ROLE_" + role.toUpperCase());
+            roleByName.ifPresent(rolesToSave::add);
+        }
 
         //
 

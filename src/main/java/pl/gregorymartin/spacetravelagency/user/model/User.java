@@ -1,5 +1,6 @@
 package pl.gregorymartin.spacetravelagency.user.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     Collection<Role> roles;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

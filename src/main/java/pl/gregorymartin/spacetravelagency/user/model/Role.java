@@ -1,5 +1,6 @@
 package pl.gregorymartin.spacetravelagency.user.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Role {
     private Long id;
     private String name;
 
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Collection<User> users;
 
