@@ -46,11 +46,10 @@ class BookingService {
     }
 
     public boolean addUserToBooking(Long userId, Long bookingId){
-        logger.info("TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
+
         Optional<User> userById = userRepository.findById(userId);
         Optional<Booking> bookingById = bookingRepository.findById(bookingId);
         if(userById.isPresent() && bookingById.isPresent()){
-
             userById.get().newBooking(bookingById.get());
             userRepository.save(userById.get());
 

@@ -1,28 +1,43 @@
 package pl.gregorymartin.spacetravelagency.user.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.gregorymartin.spacetravelagency.travel.model.Booking;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
 @Setter @Getter @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
+    @NotBlank
+    @Email
     private String email;
+
+    private boolean isEnabled;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -49,6 +64,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+        roles = new ArrayList<>();
     }
     public void newRole(Role newRole){
         this.roles.add(newRole);
@@ -63,5 +79,36 @@ public class User {
         this.password = toUpdate.password;
         this.email = toUpdate.email;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        roles.forEach(x -> authorities.add(new SimpleGrantedAuthority(x.getName())));
+        return authorities;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void toggleEnable() {
+        isEnabled = !isEnabled;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
 
 }

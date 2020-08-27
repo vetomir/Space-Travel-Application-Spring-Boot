@@ -64,17 +64,17 @@ class BookingApi {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @PatchMapping("/booking/{bookingid}/add/{userid}")
-    ResponseEntity<?> addUserToBooking(@PathVariable Long bookingid, @PathVariable Long userid ) {
-        boolean result = bookingService.addUserToBooking(userid,bookingid);
+    @PatchMapping("/booking/{bookingId}/add/{userId}")
+    ResponseEntity<?> addUserToBooking(@PathVariable Long bookingId, @PathVariable Long userId ) {
+        boolean result = bookingService.addUserToBooking(userId,bookingId);
         if(result){
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
-    @PatchMapping("/booking/{bookingid}/remove/{userid}")
-    ResponseEntity<?> removeUserToBooking(@PathVariable Long bookingid, @PathVariable Long userid ) {
-        boolean result = bookingService.deleteUserFromBooking( userid , bookingid );
+    @PatchMapping("/booking/{bookingId}/remove/{userId}")
+    ResponseEntity<?> removeUserToBooking(@PathVariable Long bookingId, @PathVariable Long userId ) {
+        boolean result = bookingService.deleteUserFromBooking( userId , bookingId );
         if(result){
             return ResponseEntity.ok().build();
         }

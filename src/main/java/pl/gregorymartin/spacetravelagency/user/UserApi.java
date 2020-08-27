@@ -11,6 +11,7 @@ import pl.gregorymartin.spacetravelagency.user.model.RoleRepository;
 import pl.gregorymartin.spacetravelagency.user.model.User;
 import pl.gregorymartin.spacetravelagency.user.model.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
 
@@ -41,7 +42,11 @@ class UserApi {
     }
 
     @PostMapping("/new")
-    ResponseEntity<User> createUser(@RequestBody User user, @RequestHeader(required = false) String role) {
+    ResponseEntity<User> createUser(
+            @RequestBody User user,
+            @RequestHeader(required = false) String role,
+            HttpServletRequest request
+    ) {
         if(role.isEmpty()){
             role = null;
         }

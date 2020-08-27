@@ -1,7 +1,8 @@
-package pl.gregorymartin.spacetravelagency.user;
+package pl.gregorymartin.spacetravelagency;
 
 import org.springframework.stereotype.Component;
 import pl.gregorymartin.spacetravelagency.travel.BookingService;
+import pl.gregorymartin.spacetravelagency.user.UserService;
 import pl.gregorymartin.spacetravelagency.user.model.User;
 
 import java.time.LocalDateTime;
@@ -25,10 +26,10 @@ public class Warmup {
 
         // USERS
 
-        userService.createUser(new User("Administrator", "admin", "admin123", "vedsgf"),"admin");
-        userService.createUser(new User("Zenon Martyniuk", "wieszcz", "jestemgównem123", "vedsgf"),"author");
-        userService.createUser(new User("Zenon Martyniuk", "wieszcz", "jestemgównem123", "vedsgf"),"admin");
-        userService.createUser(new User("Zenon Martyniuk", "wieszcz", "jestemgównem123", "vedsgf"),"user");
+        userService.createUser(new User("Administrator", "admin", "admin123", "vedsgf@wp.pl"),"admin");
+        userService.createUser(new User("Zenon Martyniuk", "wieszcz", "asfdgs", "vedsgasdaf@wp.pl"),"author");
+        userService.createUser(new User("Zenon Martyniuk", "wieszcz", "jestemgównem123", "ve@wp.pl"),"admin");
+        userService.createUser(new User("Zenon Martyniuk", "wieszcz", "jestemgównem123", "vedsgfs@wp.pl"),"user");
 
         // PLACES
 
@@ -46,16 +47,16 @@ public class Warmup {
         bookingService.createNewBooking("PL004", "Szczecin", "Kraków", LocalDateTime.now());
         bookingService.createNewBooking("PL005", "Warszawa", "Poznań", LocalDateTime.now());
         bookingService.createNewBooking("PL006", "Szczecin", "Kraków", LocalDateTime.now());
+
         bookingService.addUserToBooking(2L,1L);
         bookingService.addUserToBooking(1L,1L);
         bookingService.addUserToBooking(3L,1L);
-        /*bookingService.addUserToBooking(1L,2L);
+        bookingService.addUserToBooking(1L,2L);
         bookingService.addUserToBooking(3L,3L);
         bookingService.addUserToBooking(1L,4L);
         bookingService.addUserToBooking(2L,5L);
         bookingService.addUserToBooking(2L,6L);
-        bookingService.addUserToBooking(3L,7L);*/
-
+        bookingService.addUserToBooking(3L,7L);
     }
 
 }

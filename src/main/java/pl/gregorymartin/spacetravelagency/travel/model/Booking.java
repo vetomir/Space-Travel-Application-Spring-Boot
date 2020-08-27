@@ -7,6 +7,8 @@ import lombok.Setter;
 import pl.gregorymartin.spacetravelagency.user.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -17,11 +19,14 @@ class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String name;
 
     @OneToOne
     @JoinColumn(name = "origin_id")
     private Place origin;
+
     @OneToOne
     @JoinColumn(name = "destination_id")
     private Place destination;
